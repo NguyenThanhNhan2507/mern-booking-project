@@ -1,11 +1,13 @@
 import express, { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
-import User from "../model/user";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import verifyToken from "../middleware/auth";
+import User from "../model/user";
 
 const router = express.Router();
+
+
 
 router.post(
   "/login",
@@ -26,12 +28,12 @@ router.post(
     try {
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ message: "Invalid Email or Password" });
+        return res.status(400).json({ message: "Invalid Credentials" });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ message: "Invalid Email or Password" });
+        return res.status(400).json({ message: "Invalid Credentials" });
       }
 
       const token = jwt.sign(
@@ -42,9 +44,10 @@ router.post(
         }
       );
 
-      res.cookie("auth_token", token, {
+      res.cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: true,
+        sameSite: "none" as const,
         maxAge: 86400000,
       });
       res.status(200).json({ userId: user._id });
@@ -59,4 +62,6 @@ router.get("/validate-token", verifyToken, (req: Request, res: Response) => {
   res.status(200).send({ userId: req.userId });
 });
 
-export default router
+
+
+export default router;

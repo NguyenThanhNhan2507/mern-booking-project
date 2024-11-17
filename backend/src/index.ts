@@ -1,13 +1,14 @@
 import express from 'express';
 import cors from 'cors'
-import 'dotenv/config'
 import mongoose from 'mongoose'
+import cookieParser from 'cookie-parser';
+import 'dotenv/config'
 import userRoutes from './routes/userRoute'
 import authRoutes from './routes/authRoute'
 
 
 const app = express();
-const POST = 3000
+const POST = 7000
 
 
 
@@ -23,9 +24,9 @@ mongoose.connect( process.env.URL_DB as string ,{
     console.log(`mongodb is connected with server: ${data.connection.host}`);
 })
 
-
+app.use(cookieParser());
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
