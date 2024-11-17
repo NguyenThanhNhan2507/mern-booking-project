@@ -8,7 +8,7 @@ import authRoutes from './routes/authRoute'
 
 
 const app = express();
-const POST = 7000
+const POST = 3000
 
 
 

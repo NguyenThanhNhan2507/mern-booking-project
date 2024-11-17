@@ -44,7 +44,7 @@ router.post(
         }
       );
 
-      res.cookie("token", token, {
+      res.cookie("auth_token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "none" as const,
@@ -62,6 +62,15 @@ router.get("/validate-token", verifyToken, (req: Request, res: Response) => {
   res.status(200).send({ userId: req.userId });
 });
 
-
+router.post("/logout", (req: Request, res: Response) => {
+  res.cookie("auth_token", "", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none" as const,
+    expires: new Date(0),
+    path: "/"
+  });
+  res.send();
+});
 
 export default router;

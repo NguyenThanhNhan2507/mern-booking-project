@@ -1,9 +1,15 @@
 import { useForm } from "react-hook-form";
 import { SignInFormData } from "../types/auth.type";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../api-client";
+import { useAppContext } from "../contexts/AppContext";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+  const { showToast } = useAppContext();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const {
     register,
     formState: { errors },
@@ -12,9 +18,13 @@ const SignIn = () => {
 
   const mutation = useMutation(apiClient.signIn, {
     onSuccess: async () => {
-      console.log("User has been sign in");
+      showToast({ message: "Sign in Successful!", type: "SUCCESS" });
+      await queryClient.invalidateQueries("validateToken");
+      navigate("/");
     },
-    onError: (err: Error) => {},
+    onError: (err: Error) => {
+      showToast({ message: err.message, type: "ERROR" });
+    },
   });
 
   const onSubmit = handleSubmit((data) => {
@@ -51,7 +61,13 @@ const SignIn = () => {
           <span className="text-red-500">{errors.password.message}</span>
         )}
       </label>
-      <span>
+      <span className="flex items-center justify-between">
+        <span className="text-sm">
+          Not Registered?{" "}
+          <Link className="underline" to="/register">
+            Create an account here
+          </Link>
+        </span>
         <button
           type="submit"
           className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl"

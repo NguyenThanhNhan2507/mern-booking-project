@@ -57,7 +57,7 @@ router.post(
         }
       );
 
-      res.cookie("token", token, {
+      res.cookie("auth_token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "none" as const,
