@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import 'dotenv/config'
 import userRoutes from './routes/userRoute'
 import authRoutes from './routes/authRoute'
+import path from 'path';
 
 
 const app = express();
@@ -35,7 +36,7 @@ app.use(
 );
 
 
-
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
