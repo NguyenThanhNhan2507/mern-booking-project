@@ -6,6 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 export const register = async (formData: RegisterFormData)=>{
     const response = await fetch(`${API_BASE_URL}/api/users/register`, {
         method: 'POST',
+        mode: 'no-cors',
         credentials: "include",
         headers: {
             "Content-Type": "application/json"
@@ -22,6 +23,7 @@ export const register = async (formData: RegisterFormData)=>{
 export const signIn = async (formData: SignInFormData) => {
     const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: "POST",
+      mode: 'no-cors',
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
@@ -39,6 +41,7 @@ export const signIn = async (formData: SignInFormData) => {
 
 export const validateToken = async () => {
     const response = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
+      mode: 'no-cors',
         credentials: "include"
     });
   
@@ -52,6 +55,7 @@ export const validateToken = async () => {
   export const signOut = async () => {
     const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
       method: "POST",
+      mode: 'no-cors',
       credentials: "include",
     });
   
