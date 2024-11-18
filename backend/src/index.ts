@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser';
@@ -42,7 +42,9 @@ app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 
 
-
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 app.listen(POST, ()=>{
     console.log(`server running on localhost: ${POST}`)
