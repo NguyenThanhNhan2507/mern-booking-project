@@ -5,11 +5,22 @@ import cookieParser from 'cookie-parser';
 import 'dotenv/config'
 import userRoutes from './routes/userRoute'
 import authRoutes from './routes/authRoute'
+import myHotelRoutes from "./routes/myHotelRoute";
 import path from 'path';
+import { v2 as cloudinary } from "cloudinary";
 
 
 const app = express();
 const POST = 3000
+
+
+
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 
 
@@ -40,6 +51,7 @@ app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
+app.use("/api/my-hotels", myHotelRoutes);
 
 
 app.get("*", (req: Request, res: Response) => {
