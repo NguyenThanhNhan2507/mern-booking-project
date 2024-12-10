@@ -3,12 +3,13 @@ import { SignInFormData } from "../types/auth.type";
 import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const { showToast } = useAppContext();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const location = useLocation();
 
   const {
     register,
@@ -20,10 +21,10 @@ const SignIn = () => {
     onSuccess: async () => {
       showToast({ message: "Sign in Successful!", type: "SUCCESS" });
       await queryClient.invalidateQueries("validateToken");
-      navigate("/");
+      navigate(location.state?.from?.pathname || "/");
     },
-    onError: (err: Error) => {
-      showToast({ message: err.message, type: "ERROR" });
+    onError: (error: Error) => {
+      showToast({ message: error.message, type: "ERROR" });
     },
   });
 
