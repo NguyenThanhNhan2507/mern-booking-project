@@ -7,6 +7,7 @@ import userRoutes from './routes/userRoute'
 import authRoutes from './routes/authRoute'
 import myHotelRoutes from "./routes/myHotelRoute";
 import hotelRoutes from "./routes/hotelRoute";
+import bookingRoutes from "./routes/myBookingRoute";
 import path from 'path';
 import { v2 as cloudinary } from "cloudinary";
 
@@ -54,6 +55,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use("/api/my-hotels", myHotelRoutes);
 app.use("/api/hotels", hotelRoutes);
+app.use("/api/my-bookings", bookingRoutes);
 
 
 app.get("*", (req: Request, res: Response) => {
